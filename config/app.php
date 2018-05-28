@@ -182,6 +182,7 @@ return [
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
         Brian2694\Toastr\ToastrServiceProvider::class,
+        Sofa\Eloquence\BaseServiceProvider::class
     ],
 
     /*

@@ -11,140 +11,60 @@ use Illuminate\Http\Response;
 class ClientController extends Controller
 {
     /**
-     * @var int
+     * @return string
      */
-    private $client;
-
-    /**
-     * @var int
-     */
-    private $pages = 10;
-
-    /**
-     * ClientController constructor.
-     * @param Client $client
-     */
-    public function __construct(Client $client)
+    public function clients()
     {
-        $this->client = $client;
+        return view('admin.client.index')->render();
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $clients = Client::orderby('id', 'DESC')->paginate($this->pages);
-
-        //dump($clients);die;
-        return view('admin.client.index', compact('clients'));
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
-    public function create(Request $request)
-    {
-        if ($request->isMethod('post')) {
-
-            Client::create($request->all());
-
-            $notification = array(
-                'message' => 'Cadastro efutuado com sucesso!',
-                'alert-type' => 'success'
-            );
-
-            return back()->with($notification);
-        }
-
-        return view('admin.client.form')->render();
+        $clients = Client::orderby('id', 'DESC')->paginate(10);
+        return response()->json($clients);
     }
 
     /**
      * @param ClientFormRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ClientFormRequest $request)
     {
-        $dataForm = $request->all();
-
-        $insert = $this->client->create($dataForm);
-
-        if ($insert) {
-            return redirect()->route('clients.index');
-        }
-        else {
-            return redirect()->route('clients.create');
-        }
+        $client = Client::create($request->all());
+        return response()->json($client);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Client $client)
+    public function edit($id)
     {
-        //
-    }
-
-    /**
-     * @param Client $client
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit(Client $client)
-    {
-        $client = $this->client->find($client)->first();
-
-        return view('admin.client.form', compact('client'))->render();
+        $client = Client::find($id);
+        return response()->json($client);
     }
 
     /**
      * @param Request $request
-     * @param Client $client
-     * @return \Illuminate\Http\RedirectResponse
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $id)
     {
-        $dataForm = $request->all();
-
-        $client = $this->client->find($client)->first();
-
-        $update = $client->update($dataForm);
-
-        if ($update && $request->ajax()) {
-            return redirect()->route('clients.index');
-        }
-        else {
-            return redirect()->route('clients.edit')->with(['errors' => 'Falhar ao editar']);
-        }
+        $client = Client::find($id)->update($request->all());
+        return response()->json($client);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Client  $client
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Client $client)
+    public function destroy($id)
     {
-        $client = Client::find($client)->first();
-
-        try {
-            $message = 'Registro excluído com sucesso';
-            $status = Response::HTTP_OK;
-            $client->delete();
-        } catch (\Exception $exception) {
-            $message = 'Falha ao excluir este registro';
-            $status = Response::HTTP_CONFLICT;
-        }
-
-        return Response::create([
-            'message' => $message
-        ], $status);
+        Client::find($id)->delete();
+        return response()->json(['done']);
     }
 }

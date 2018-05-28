@@ -4,6 +4,8 @@
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     <link href="{{ asset('css/sweetalert.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 
     @stack('css')
@@ -130,15 +132,19 @@
         <!-- /.content-wrapper -->
 
     </div>
-    <!-- ./wrapper -->
 @stop
 
 @section('adminlte_js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('select2/select2.min.js') }}"></script>
+    <script src="{{ asset('touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.twbsPagination.min.js') }}"></script>
+    <script src="{{ asset('js/validator.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     @stack('js')
     @yield('js')
 @stop

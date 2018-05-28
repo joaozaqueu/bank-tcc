@@ -120,7 +120,7 @@ return [
         ],
         [
             'text'      => 'Produtos',
-            'url'       => '#',
+            'url'       => 'admin/products  /',
             'icon'      => 'product-hunt'
         ],
         [

@@ -13,7 +13,6 @@
     		<a href="" class="btn btn-warning">Sacar</a>
     	</div>
     	<div class="box-body">
-            @include('admin.helpers.messages')
 
     		<div class="small-box bg-green">
             <div class="inner">

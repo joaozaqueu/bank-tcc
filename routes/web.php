@@ -20,15 +20,17 @@ Route::group(['middleware' => ['auth'], 'namespace' => 'Admin', 'prefix' => 'adm
 	Route::get('historic/', 'HistoricController@index');
 	Route::get('historic/list', 'HistoricController@historicList');
 
-	Route::resource('clients', 'ClientController', ['names' => [
-	    'index' => 'clients.index',
-	    'create' => 'clients.create',
-        'store' => 'clients.store',
-        'show' => 'clients.show',
-        'edit' => 'clients.edit',
-        'update' => 'clients.update',
-        'destroy' => 'clients.destroy'
-    ]]);
+	Route::get('clients', 'ClientController@clients');
+	Route::resource('client', 'ClientController');
+
+    Route::get('products', 'ProductController@products');
+    Route::resource('product','ProductController');
+
+    Route::get('sale', 'SaleController@index')->name('admin.sale');
+    Route::get('list_products/{id}', 'SaleController@listProductsSale')->name('admin.list-products-sale');
+    Route::get('client_for_sale', 'SaleController@selectClient')->name('admin.client-for-sale');
+    Route::get('product_for_sale', 'SaleController@selectProduct')->name('admin.product-for-sale');
+    Route::post('include_product', 'SaleController@includeProduct')->name('admin.include-product');
 
 	Route::get('/', 'AdminController@index')->name('admin.home');
 });
